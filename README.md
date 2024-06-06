@@ -16,9 +16,9 @@ This project demonstrates the creation and manipulation of binary trees in C. It
 - [Difference Between Binary Tree and Binary Search Tree](#difference-between-binary-tree-and-binary-search-tree)
 - [Binary Tree Properties](#binary-tree-properties)
 - [Types of Binary Trees](#types-of-binary-trees)
-- [Data Structure](#Data Structure)
+- [Data Structure](#Data-Structure)
 - [Usage](#Usage)
-- [Example Output](#Example Output)
+- [Example Output](#Example-Output)
 - [Authors](#Authors)
 
 ## Binary Trees
