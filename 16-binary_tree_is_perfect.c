@@ -1,76 +1,72 @@
 #include "binary_trees.h"
 
 /**
- * binary_tree_height - Measures the height of a binary tree.
- * @tree: A pointer to the root node of the tree to measure the height.
+ * binary_tree_height -  Measures the height of a binary tree..
  *
- * Return: The height of the tree. If tree is NULL, return 0.
+ * @tree: pointer to the parent node of the node to create.
+ *
+ * Return: pointer to the new node, or NULL on failure
  */
 size_t binary_tree_height(const binary_tree_t *tree)
 {
-	size_t left_h = 0, right_h = 0;
+	size_t right_h = 0, left_h = 0;
 
 	if (!tree)
 		return (0);
 
-	left_h = binary_tree_height(tree->left);
-	right_h = binary_tree_height(tree->right);
+	if (tree->right)
+		right_h = 1 + binary_tree_height(tree->right);
 
-	if (left_h > right_h)
-		return (left_h + 1);
+	if (tree->left)
+		left_h = 1 + binary_tree_height(tree->left);
+
+	if (right_h > left_h)
+		return (right_h);
 	else
-		return (right_h + 1);
+		return (left_h);
 }
-
 /**
- * binary_tree_is_full - Checks if a binary tree is full.
- * @tree: A pointer to the root node of the tree to check.
+ * binary_tree_balance - Measures the balance factor of a binary tree.
  *
- * Return: 1 if the tree is full, otherwise 0.
+ * @tree: pointer to the parent node of the node to create.
+ *
+ * Return: pointer to the new node, or NULL on failure
  */
-int binary_tree_is_full(const binary_tree_t *tree)
+int binary_tree_balance(const binary_tree_t *tree)
 {
-	int full_left = 0, full_right = 0;
+	size_t right_h = 0, left_h = 0;
 
-	/* If the tree is NULL, it is not full */
 	if (!tree)
 		return (0);
 
-	/* If the node is a leaf node, it is full */
-	if (tree->left == NULL && tree->right == NULL)
-		return (1);
+	if (tree->right)
+		right_h = 1 + binary_tree_height(tree->right);
 
-	/* If both children are present, check recursively */
-	if (tree->left != NULL && tree->right != NULL)
-	{
-		full_left = binary_tree_is_full(tree->left);
-		full_right = binary_tree_is_full(tree->right);
-		return (full_left && full_right);
-	}
+	if (tree->left)
+		left_h = 1 + binary_tree_height(tree->left);
 
-	/* If one child is missing, the tree is not full */
-	return (0);
+	return (left_h - right_h);
 }
-
 /**
- * binary_tree_is_perfect - Checks if a binary tree is perfect.
- * @tree: A pointer to the root node of the tree to check.
+ * binary_tree_is_perfect -  Checks if a binary tree is perfect.
  *
- * Return: 1 if the tree is perfect, otherwise 0.
+ * @tree: pointer to the parent node of the node to create.
+ *
+ * Return: pointer to the new node, or NULL on failure
  */
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
-	size_t left_h = 0, right_h = 0;
-
-	if (tree == NULL)
+	if (!tree)
 		return (0);
 
-	left_h = binary_tree_height(tree->left);
-	right_h = binary_tree_height(tree->right);
+	if (binary_tree_balance(tree) == 0)
+	{
 
-	if (binary_tree_is_full(tree) && left_h == right_h)
-		return (1);
-	else
-		return (0);
+		if (!tree->left && !tree->right)
+			return (1);
+		return (binary_tree_is_perfect(tree->left) &&
+				binary_tree_is_perfect(tree->right));
+	}
+	return (0);
 }
 
